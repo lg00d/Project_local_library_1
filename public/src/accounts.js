@@ -1,4 +1,6 @@
-function findAccountById(accounts, id) { }
+function findAccountById(accounts, id) {
+  return accounts.find((account) => account.id === id);
+}
 
 function sortAccountsByLastName(accounts) { }
 
