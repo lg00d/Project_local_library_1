@@ -31,6 +31,10 @@ function getBooksPossessedByAccount(account, books, authors) {
     return book.borrows.some((borrow) => borrow.id === accountId && !borrow.returned);
   });
 
+  function getAuthorById(authors, id) {
+    return authors.find((author) => author.id === id);
+  }
+
   result = result.map((book) => {
     const author = getAuthorById(authors, book.authorId);
     const newBook = {
