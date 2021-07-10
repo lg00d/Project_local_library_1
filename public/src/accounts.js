@@ -9,14 +9,15 @@ function sortAccountsByLastName(accounts) {
 function getTotalNumberOfBorrows(account, books) {
   const { id } = account;
   let total = 0;
-
   for (let book in books) {
     const { borrows } = books[book];
-    borrows.forEach((element) => {
+    borrows.reduce((acc, element) => {
       if (element.id === id) {
-        total++;
+        return total++
+      } else {
+        return total
       }
-    });
+    }, 0);
   }
 
   return total;

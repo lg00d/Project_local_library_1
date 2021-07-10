@@ -1,6 +1,6 @@
-const {
-  findBookById, findAuthorById
-} = require("./books.js");
+//let {
+//findAuthorById
+//} = require("./books.js");
 
 function getTotalBooksCount(books) {
   return books.length;
@@ -20,6 +20,15 @@ function getBooksBorrowedCount(books) {
   return borrowed;
 }
 
+function cleanUpResponse(array) {
+  array.sort((a, b) => b.count - a.count);
+  if (array.length > 5) {
+    return array.slice(0, 5);
+  }
+
+  return array
+}
+
 function getMostCommonGenres(books) {
   const result = books.map((book) => book.genre);
   const mostCommon = [];
@@ -35,29 +44,25 @@ function getMostCommonGenres(books) {
       mostCommon.push({ name: genre, count: 1 });
     }
   });
-  mostCommon.sort((a, b) => b.count - a.count);
-  if (mostCommon.length > 5) {
-    return mostCommon.slice(0, 5);
-  } t
-  return mostCommon;
+  return cleanUpResponse(mostCommon);
 }
 
 function getMostPopularBooks(books) {
-  return books.map((book) => {
+  return cleanUpResponse(books.map((book) => {
     return { name: book.title, count: book.borrows.length }
-  }).sort((a, b) => (a.count < b.count ? 1 : -1)).slice(0, 5)
+  }))
 }
 
 function getMostPopularAuthors(books, authors) {
   const result = []
 
   books.map((book) => {
-    const author = findAuthorById(authors, book.authorId)
+    const author = authors.find((author) => author.id === book.authorId)
     const fullName = `${author.name.first} ${author.name.last}`;
 
     const newAuthorInfo = {
       name: fullName,
-      count: bookt.borrows.length,
+      count: book.borrows.length,
     };
 
     if (result.find((x) => x.name == fullName) == undefined)
@@ -65,14 +70,9 @@ function getMostPopularAuthors(books, authors) {
   })
 
   // sort the new array by count: greatest to least
-  result.sort((authorA, authorB) => authorB.count - authorA.count);
 
-  // limit array to 5
-  result.splice(5);
 
-  console.log(result)
-
-  return result;
+  return cleanUpResponse(result);
 }
 
 module.exports = {
