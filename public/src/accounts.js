@@ -11,7 +11,7 @@ function getTotalNumberOfBorrows(account, books) {
   let total = 0;
   for (let book in books) {
     const { borrows } = books[book];
-    borrows.reduce((acc, element) => {
+    borrows.reduce((acc, element) => { //*****/.REDUCE METHOD *****////
       if (element.id === id) {
         return total++
       } else {
